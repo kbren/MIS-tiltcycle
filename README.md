@@ -1,6 +1,7 @@
 # MIS-tiltcycle
 This project sprouted from the group project at ACDC 2018. Here, we explore the potential role of isostatic adjustment in producing 1500 year global cycles in marine ice sheets in particular in the southern hemisphere.  
 
+This will serve as documentation for this version of the code. This code version was used to make the plots in our presentation at ACDC.
 ---
 How to Run
 1. Run iceSpring, which calls on the bedSpring function.
@@ -10,8 +11,7 @@ IceBed_v1_DC (Added by DC, 10/3/18)
 Python version of IceSpring+BedSpring v1 - has the bedspring code embedded in it, so can be run as a stand alone program.
 Has the same problems as earlier.
 
----
-This will serve as documentation for this version of the code. This code version was used to make the plots in our presentation at ACDC. 
+--- 
 
 Problems
 1. The code is not well-annotated.
