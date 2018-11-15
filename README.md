@@ -2,6 +2,7 @@
 This project sprouted from the group project at ACDC 2018. Here, we explore the potential role of isostatic adjustment in producing 1500 year global cycles in marine ice sheets in particular in the southern hemisphere.  
 
 This will serve as documentation for this version of the code. This code version was used to make the plots in our presentation at ACDC.
+
 ---
 How to Run
 1. Run iceSpring, which calls on the bedSpring function.
