@@ -37,10 +37,8 @@ hxNew = h2;
 h_ice_sup_water = bx.*1/lambda;
 h_ice_sup_water(bx>0) = 0;
 
-% Ice height the will depress the bed:
-h_ice_depress_bed = h2+h_ice_sup_water;
 
-%dh = h2 - h1; %dh needs to just be the ice change that's above floatation
+dh = h2 - h1; %dh needs to just be the ice change that's above floatation
 
 b_eqNew = b_eq - dh.*gamma;
 db_dt = (-1/tau)*(b-b0-b_eqNew);
