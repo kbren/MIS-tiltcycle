@@ -1,14 +1,25 @@
 function [bNew,b_eqNew,hxNew] = bedSpring(h1,L2,H2,hg,b,b_eq,b0,tau);
- 
-rho_i = 917;
-rho_b = 265;
-gamma = rho_b/rho_i;
+% All heights are relative to sea surface height (currently unchanging)
+% all changes in the sea level are absorbed by changes in the bed
 
-dt = 1;
-len = length(b); %2000;
+% h1 = height of ice along x-axis at the previous timestep (vector)
+% L2 = current length of the ice (scalar)
+% H2 = current mean thickness of the ice (scalar) 
+% hg = thickness of ice at the grounding line (scalar) 
+% bx = current bed elevation (vector)
+% bx_eq = current equilibrium bed (vector) 
+% b0 = initial bed height (vector) 
+% tau = timescale (scalar)
+
+rho_i = 917;    % density of ice (kg/m^3) 
+rho_b = 2650;   % density of bed (kg/m^3)
+gamma = rho_i/rho_b;  % displaced bed by ice
+
+dt = 1;         % timestep in years 
+len = length(b); %2000; % number of points along the bed (x-axis) 
 
 % h1(1:len) = 0;
-h2 = zeros(1,len);
+h2 = zeros(1,len);  % initiating new thickness of ice sheet 
  
 % for ix = 1:floor(L1)
 %     h1(ix) = 3*(H1-hg)*sqrt((L1-ix)/L1)/2 + hg;
