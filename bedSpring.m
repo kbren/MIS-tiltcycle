@@ -11,6 +11,15 @@ function [bNew,b_eqNew,hxNew] = bedSpring(h1,L2,H2,hg,b,b_eq,b0,tau);
 % b0 = initial bed height (vector) 
 % tau = timescale (scalar)
 
+% TO DO: 
+% Add the affect of water weight beyond the ice sheet edge. 
+% Likely use a linear or exponential damping effect of bed depression 
+% away from the ice sheet. 
+% Our goal is do a 1D experiment to see how the bed responds to loading
+% (the ice sheet should encompass the entire domain) 
+% Our second goal is to do a 2D experiment to figure out how to deal with
+% the cliff at the edge of the ice sheet (see comments above) 
+
 rho_i = 917;    % density of ice (kg/m^3) 
 rho_b = 2650;   % density of bed (kg/m^3)
 rho_w = 1000;   % density of water (kg/m^3)
