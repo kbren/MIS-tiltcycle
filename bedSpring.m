@@ -6,8 +6,9 @@ function [bNew,b_eqNew,hxNew] = bedSpring(h1,L2,H2,hg,b,b_eq,b0,tau);
 % L2 = current length of the ice (scalar)
 % H2 = current mean thickness of the ice (scalar) 
 % hg = thickness of ice at the grounding line (scalar) 
-% bx = current bed elevation (vector)
-% bx_eq = current equilibrium bed (vector) 
+% b = current bed elevation (vector) positive going up, zero is water
+%      surface, magnitude of b (when negative) is equivalent to water thickness
+% b_eq = current equilibrium bed (vector) 
 % b0 = initial bed height (vector) 
 % tau = timescale (scalar)
 
@@ -24,7 +25,7 @@ rho_i = 917;    % density of ice (kg/m^3)
 rho_b = 2650;   % density of bed (kg/m^3)
 rho_w = 1000;   % density of water (kg/m^3)
 gamma = rho_i/rho_b;  % displaced bed by ice
-lambda = rho_i/rho_w; 
+lambda = rho_i/rho_w; % (height ice)lambda = (height water)
 
 dt = 1;         % timestep in years 
 len = length(b); % number of points along the bed (x-axis) 
@@ -43,15 +44,17 @@ h2 = h1;
 hxNew = h2;
 
 % Calculate how much ice is supported by water: 
-h_ice_sup_water = bx.*1/lambda;
-h_ice_sup_water(bx>0) = 0;
+% h_ice_sup_water = bx.*1/lambda;
+% h_ice_sup_water(bx>0) = 0;
+h_ice_sup_water = b.*1/lambda;
+h_ice_sup_water(b>0) = 0;
 
-% Ice height the will depress the bed:
+% Ice height the will depress the bed (not supported by water):
 h_ice_depress_bed = h2+h_ice_sup_water;
 
 %dh = h2 - h1; %dh needs to just be the ice change that's above floatation
 
-b_eqNew = b_eq - dh.*gamma;
+b_eqNew = b_eq - h_ice_depress_bed.*gamma;
 db_dt = (-1/tau)*(b-b0-b_eqNew);
 bNew = b + db_dt*dt;
 
