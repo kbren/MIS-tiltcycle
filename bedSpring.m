@@ -54,8 +54,9 @@ h_ice_depress_bed = h2+h_ice_sup_water;
 
 %dh = h2 - h1; %dh needs to just be the ice change that's above floatation
 
-b_eqNew = b_eq - h_ice_depress_bed.*gamma;
-db_dt = (-1/tau)*(b-b0-b_eqNew);
+b_eqNew = b0 - h_ice_depress_bed.*gamma;
+%db_dt = (-1/tau)*(b-b0-b_eqNew);
+db_dt = (-1/tau)*(b-b_eqNew);
 bNew = b + db_dt*dt;
 
 % figure
