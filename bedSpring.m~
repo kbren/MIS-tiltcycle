@@ -55,7 +55,7 @@ h_ice_sup_water(b>0) = 0;
 h_ice_depress_bed = h2+h_ice_sup_water;
 
 % q is the applied load 
-%q = 
+q = h_ice_depress_bed
 
 %dh = h2 - h1; %dh needs to just be the ice change that's above floatation
 

@@ -16,11 +16,11 @@ gamma = rho_i/rho_b;  % displaced bed by ice
 lambda = rho_i/rho_w; % (height ice)lambda = (height water)
 
 x = 0:10;
-h1 = 100.*ones(length(x)); 
+h1 = 100.*ones(length(x),1); 
 L2 = 10; 
 H2 = 100;
 hg = 100;
-b = 100.*ones(length(x));
+b = 0.*ones(length(x),1);
 
 h_ice_sup_water = b.*1/lambda;
 h_ice_sup_water(b>0) = 0;
@@ -30,15 +30,16 @@ b0 = b;
 b_eq = b0 - h_ice_depress_bed.*gamma;
 tau = 10; 
 
-%for t=1:100 
+ 
 t = 0;
 %while abs(b_eq-b)>1
-while abs((b0-b)/(b0-b_eq))>1
-    plot(x,b,'b'); hold on; plot(x,h1+b,'k'); plot(x,b_eq,'r');ylim([0,200]);
+%while abs((b0-b)/(b0-b_eq))>1
+for t=1:100
+    plot(x,b,'b'); hold on; plot(x,h1+b,'k'); plot(x,b_eq,'r');ylim([-100,100]);
     H2 = mean(h1);
     [bNew,b_eqNew,hxNew] = bedSpring(h1,L2,H2,hg,b,b_eq,b0,tau);
     b = bNew; b_eq = b_eqNew; h1 = hxNew;
-    t=t+1;
+%    t=t+1;
 end
 
 
