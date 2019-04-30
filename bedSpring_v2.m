@@ -43,16 +43,26 @@ h2 = zeros(1,len);  % initiating new thickness of ice sheet
 
 % For no changes to the ice thickness: 
 h2 = h1;
-hxNew = h2;
+hxNew = h2; 
 
-% Calculate how much ice is supported by water: 
-% h_ice_sup_water = bx.*1/lambda;
-% h_ice_sup_water(bx>0) = 0;
-h_ice_sup_water = b.*1/lambda;
-h_ice_sup_water(b>0) = 0;
+% q is the applied load 
+q = rho_i*g.*hi + rho_w*g.*hw - rho_i*g.*hi_eq - rho_w*g.*hw_eq;
 
-% Ice height the will depress the bed (not supported by water):
-h_ice_depress_bed = h2+h_ice_sup_water; 
+dx = x(2)-x(1);  
+P = q.*dx; 
+L = 132000; %(meters)
+D = 10^25; %(N*meters)   
+wp = zeros(length(x),length(x)); 
+
+for xi = x 
+    r = abs(x-x(xi));
+    [kei,ker] = kelvin_function(0,r./L);
+    wp(xi,:) = (P.*L^2)/(2*pi*D).*kei;
+end
+
+wp_tot = sum(wp,2);
+
+dhb_dt = (-1/tau).*(hb-hb_eq+wp_tot); 
 
 %dh = h2 - h1; %dh needs to just be the ice change that's above floatation
 
