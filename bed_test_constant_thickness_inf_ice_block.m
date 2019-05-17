@@ -4,7 +4,13 @@
 % the ice depresses the bed more water is supporting the ice so the b_eq
 % should rise slightly, and currently its dropping dramatically!?!?
 % In the absense of water b_eq should not change with this constant ice
-% thickness setup (currently the water level is changing) 
+% thickness setup (currently the water level is changing)
+
+% 05/17/19: CODE DOES NOT BREAK!! but it also doesn't work. 
+%           Bed doesn't change, it should go down to about -30. 
+%           b currently has NaNs 
+% NEXT TIME: do two time steps and see if b turns to Nans right away
+%           fix it.
 
 close all; 
 clear all; 
@@ -29,7 +35,7 @@ h_ice_depress_bed = h1+h_ice_sup_water;
 
 b0 = b;
 %b_eq = b0 - h_ice_depress_bed.*gamma;
-b_eq = 0.0;
+b_eq = 0.*ones(length(x),1);
 tau = 10; 
 
  
@@ -37,9 +43,9 @@ t = 0;
 %while abs(b_eq-b)>1
 %while abs((b0-b)/(b0-b_eq))>1
 for t=1:100
-    plot(x,b,'b'); hold on; plot(x,h1+b,'k'); plot(x,b_eq,'r');ylim([-100,100]);
+    plot(x,b,'b'); hold on; plot(x,h1+b,'k'); plot(x,b_eq,'r');%ylim([-100,100]);
     H2 = mean(h1);
-    [bNew,b_eqNew,hxNew] = bedSpring_v2(h1,h1_eq,b,b_eq,tau);
+    [bNew,hxNew] = bedSpring_v2(x,h1,h1_eq,b,b_eq,tau);
     b = bNew; h1 = hxNew;
 %    b_eq = b_eqNew;
 %    t=t+1;

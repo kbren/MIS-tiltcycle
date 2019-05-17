@@ -1,4 +1,4 @@
-function [bNew,b_eqNew,hxNew] = bedSpring(h,h_eq,b,b_eq,tau);
+function [bNew,hxNew] = bedSpring(x,h,h_eq,b,b_eq,tau);
 % All heights are relative to sea surface height (currently unchanging)
 % all changes in the sea level are absorbed by changes in the bed
 
@@ -40,19 +40,14 @@ g = 9.81;
 
 % specifying the water thickness (needs to be positive or zero)
 % and eq thickness based on the height of the bed 
-if b_eq>0.0 && b>0.0
-    hw = 0.0;
-    hw_eq = 0.0;
-elseif b_eq>0.0 && b<=0.0
-    hw = -b;
-    hw_eq = 0.0;
-elseif b_eq<=0.0 && b>0.0
-    hw = 0.0;
-    hw_eq = -b_eq;
-elseif b_eq<=0.0 && b<=0.0
-    hw = -b;
-    hw_eq = -b_eq;
-end
+hw = -1*b;
+hw_eq = -1*b_eq;
+
+hw(hw<0.0)=0.0;
+hw_eq(hw_eq<0.0)=0.0;
+
+hw(h>0.0)= 0.0;
+hw_eq(h_eq>0.0)=0.0;
     
 % q is the applied load    
 q = rho_i*g.*h + rho_w*g.*(hw) - rho_i*g.*h_eq - rho_w*g.*(hw_eq);
@@ -63,15 +58,15 @@ L = 132000; %(meters)
 D = 10^25; %(N*meters)   
 wp = zeros(length(x),length(x));
 
-for xi = x 
+for xi=1:length(x) 
     r = abs(x-x(xi));
     [kei,ker] = kelvin_function(0,r./L);
-    wp(xi,:) = (P.*L^2)/(2*pi*D).*kei;
+    wp(xi,:) = (P'.*L^2)./(2*pi*D).*kei;
 end
 
 wp_tot = sum(wp,1);
 
-db_dt = (-1/tau).*(b-b_eq+wp_tot); 
+db_dt = (-1/tau).*(b-b_eq+wp_tot'); 
 
 bNew = b + db_dt*dt;
 
