@@ -25,7 +25,7 @@ lambda = rho_i/rho_w; % (height ice)lambda = (height water)
 
 x = 0:10:1000;
 x = x.*1000;
-h1 = 100.*ones(length(x),1); 
+h1 = 5000.*ones(length(x),1); 
 h1_eq = zeros(length(x),1);
 L2 = 10; 
 H2 = 100;

@@ -54,22 +54,22 @@ q = rho_i*g.*h + rho_w*g.*(hw) - rho_i*g.*h_eq - rho_w*g.*(hw_eq);
 
 dx = x(2)-x(1);  
 P = q.*dx; 
-L = 132000; %(meters)
-D = 10^25; %(N*meters)   
+%L = 132000; %(meters)
+L = 200000; %(meters)
+%D = 10^25; %(N*meters) 
+D = 1*10^20; 
 wp = zeros(length(x),length(x));
 
 for xi=1:length(x) 
-    r = abs(x-x(xi));
-    [kei,ker] = kelvin_function(0,r./L);
-    %kei(isinf(kei)) = 12000000.0;
-    kei(isinf(kei)) = 0.0;
-    wp(xi,:) = ((P'.*L^2)./(2*pi*D)).*kei;%.*100000;
+    r = abs(x-x(xi))+1e-10;
+    [ker,kei] = kelvin_function(0,r./L);
+    wp(xi,:) = ((P(xi)*L^2)./(2*pi*D)).*kei;%.*100000;
 end
 
-wp_pt = (q.*L^4)./D;
-wp_tot = sum(wp,1)+wp_pt';
+%wp_pt = (q.*L^4)./D;
+wp_tot = sum(wp,1);%+wp_pt';
 
-db_dt = (-1/tau).*(b-b_eq+wp_tot'); 
+db_dt = (-1/tau).*(b-b_eq-wp_tot'); 
 
 bNew = b + db_dt*dt;
 
