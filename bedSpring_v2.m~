@@ -63,11 +63,11 @@ for xi=1:length(x)
     [kei,ker] = kelvin_function(0,r./L);
     %kei(isinf(kei)) = 12000000.0;
     kei(isinf(kei)) = 0.0;
-    wp(xi,:) = ((P'.*L^2)./(2*pi*D)).*kei;%.*100000;
+    wp(xi,:) = ((P'.*L^2)./(2*pi*D)).*kei;
+    wp_(xi,:) = (q.*L^4)./D
 end
 
-wp_pt = (q.*L^4)./D;
-wp_tot = sum(wp,1)+wp_pt';
+wp_tot = sum(wp,1);
 
 db_dt = (-1/tau).*(b-b_eq+wp_tot'); 
 
