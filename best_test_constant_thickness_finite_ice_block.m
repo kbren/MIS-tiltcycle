@@ -10,7 +10,7 @@
 close all; 
 clear all; 
 
-tsteps = 6000;
+tsteps = 100;
 
 rho_i = 917;    % density of ice (kg/m^3) 
 rho_b = 2650;   % density of bed (kg/m^3)
@@ -34,8 +34,8 @@ h_ice_depress_bed = h1+h_ice_sup_water;
 
 b0 = b;
 %b_eq = b0 - h_ice_depress_bed.*gamma;
-b_eq = b; %0.*ones(length(x),1);
-tau = 2000; 
+b_eq = 0.*ones(length(x),1);
+tau = 10; 
 
  
 t = 0;
