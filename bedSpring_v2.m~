@@ -62,19 +62,16 @@ D = 1*10^20;
 L = 200000; %(meters)
 %L = (D/(rho_b*g))^(1/4);
 wp = zeros(length(x),length(x));
-kei_mat = zeros(length(x),length(x));
 
 for xi=1:length(x) 
     r = abs(x-x(xi))+1e-10;
     [ker,kei] = kelvin_function(0,r./L);
-    kei_mat(xi,:) = kei;
     wp(xi,:) = ((P(xi)*L^2)./(2*pi*D)).*kei;%.*100000;
 end
 
 %wp_pt = (q.*L^4)./D;
 wp_tot = sum(wp,1);
 
-% changed to -wp_tot as opposed to +wp_tot in (Pollard and Deconto 2012)
 db_dt = (-1/tau).*(b-b_eq-wp_tot'); 
 
 bNew = b + db_dt*dt;
