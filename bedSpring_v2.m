@@ -17,7 +17,8 @@ function [bNew,hxNew] = bedSpring(x,h,h_eq,b,b_eq,tau);
 % Need to incorporate equations for w_b
 
 rho_i = 917;    % density of ice (kg/m^3) 
-rho_b = 2650;   % density of bed (kg/m^3)
+rho_b = 3300;   % density of bed (kg/m^3)
+% rho_b = 2650;
 rho_w = 1000;   % density of water (kg/m^3)
 gamma = rho_i/rho_b;  % displaced bed by ice
 lambda = rho_i/rho_w; % (height ice)lambda = (height water)
@@ -55,11 +56,11 @@ q = rho_i*g.*h + rho_w*g.*(hw) - rho_i*g.*h_eq - rho_w*g.*(hw_eq);
 dx = x(2)-x(1);  
 P = q.*dx; 
 % D is the flextural rigidity 
-%D = 10^25; %(N*meters) 
-D = 1*10^20; 
+D = 10^24; %(N*meters) 
+%D = 1*10^20; 
 % L is flextural length scale 
-%L = 132000; %(meters)
-L = 200000; %(meters)
+L = 132000; %(meters)
+%L = 200000; %(meters)
 %L = (D/(rho_b*g))^(1/4);
 wp = zeros(length(x),length(x));
 kei_mat = zeros(length(x),length(x));
