@@ -17,14 +17,15 @@ function [bNew,hxNew] = bedSpring(x,h,h_eq,b,b_eq,tau);
 % Need to incorporate equations for w_b
 
 rho_i = 917;    % density of ice (kg/m^3) 
-rho_b = 3300;   % density of bed (kg/m^3)
+rho_b = 3370;   % density of bed (kg/m^3)
 % rho_b = 2650;
 rho_w = 1000;   % density of water (kg/m^3)
-gamma = rho_i/rho_b;  % displaced bed by ice
-lambda = rho_i/rho_w; % (height ice)lambda = (height water)
+% gamma = rho_i/rho_b;  % displaced bed by ice
+% lambda = rho_i/rho_w; % (height ice)lambda = (height water)
+secs_per_yr = 3600*24*365.25;
 
-dt = 1;         % timestep in years 
-len = length(b); % number of points along the bed (x-axis) 
+dt = 100*secs_per_yr;         % timestep in years 
+%len = length(b); % number of points along the bed (x-axis) 
 
 % This makes changes to the ice thickness: 
 %cnt = 1;
@@ -36,7 +37,7 @@ len = length(b); % number of points along the bed (x-axis)
 % For no changes to the ice thickness: 
 hxNew = h; 
 
-% Gravity :)
+% Gravity (m/s^2) :)
 g = 9.81;
 
 % specifying the water thickness (needs to be positive or zero)
@@ -55,13 +56,13 @@ q = rho_i*g.*h + rho_w*g.*(hw) - rho_i*g.*h_eq - rho_w*g.*(hw_eq);
 
 dx = x(2)-x(1);  
 P = q.*dx; 
-% D is the flextural rigidity 
-D = 10^24; %(N*meters) 
+% D is the flexural rigidity 
+D = 10^25; %(N*meters) 
 %D = 1*10^20; 
-% L is flextural length scale 
-L = 132000; %(meters)
+% L is flexural length scale 
+%L = 132000; %(meters)
 %L = 200000; %(meters)
-%L = (D/(rho_b*g))^(1/4);
+L = (D/(rho_b*g))^(1/4);
 wp = zeros(length(x),length(x));
 kei_mat = zeros(length(x),length(x));
 
@@ -76,7 +77,8 @@ end
 wp_tot = sum(wp,1);
 
 % changed to -wp_tot as opposed to +wp_tot in (Pollard and Deconto 2012)
-db_dt = (-1/tau).*(b-b_eq-wp_tot'); 
+%db_dt = (-1/tau).*(b-b_eq-wp_tot'); 
+db_dt = (-1/tau).*(b-b_eq+wp_tot'); 
 
 bNew = b + db_dt*dt;
  
