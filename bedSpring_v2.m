@@ -57,12 +57,12 @@ q = rho_i*g.*h + rho_w*g.*(hw) - rho_i*g.*h_eq - rho_w*g.*(hw_eq);
 dx = x(2)-x(1);  
 P = q.*dx; 
 % D is the flexural rigidity 
-D = 10^25; %(N*meters) 
-%D = 1*10^20; 
+%D = 10^25; %(N*meters) 
+D = 1*10^20; 
 % L is flexural length scale 
-%L = 132000; %(meters)
+L = 132000; %(meters)
 %L = 200000; %(meters)
-L = (D/(rho_b*g))^(1/4);
+%L = (D/(rho_b*g))^(1/4);
 wp = zeros(length(x),length(x));
 kei_mat = zeros(length(x),length(x));
 
@@ -77,8 +77,8 @@ end
 wp_tot = sum(wp,1);
 
 % changed to -wp_tot as opposed to +wp_tot in (Pollard and Deconto 2012)
-%db_dt = (-1/tau).*(b-b_eq-wp_tot'); 
-db_dt = (-1/tau).*(b-b_eq+wp_tot'); 
+db_dt = (-1/tau).*(b-b_eq-wp_tot'); 
+%db_dt = (-1/tau).*(b-b_eq+wp_tot'); 
 
 bNew = b + db_dt*dt;
  
